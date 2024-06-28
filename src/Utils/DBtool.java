@@ -1,8 +1,10 @@
 package Utils;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Function;
 
 public class DBtool<T> {
@@ -12,12 +14,12 @@ public class DBtool<T> {
         try {
             connection = DBconnector.getConnection();
         }catch (SQLException e){
-            e.printStackTrace();
+            throw new RuntimeException("创建连接错误", e);
         }
     }
 
-    public List<T> executeQuery(String sql, Function<ResultSet, T> mapper, Object... parameters) {
-        List<T> results = new ArrayList<>();
+    public ArrayList<T> executeQuery(String sql, Function<ResultSet, T> mapper, Object... parameters) {
+        ArrayList<T> results = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             setParameters(statement, parameters);
             try (ResultSet resultSet = statement.executeQuery()) {

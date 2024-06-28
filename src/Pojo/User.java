@@ -6,6 +6,9 @@ public class User {
     private String password;
     private String level;
 
+    public User() {
+
+    }
     public User(Integer userId, String userName, String password, String level) {
         this.userId = userId;
         this.userName = userName;
@@ -13,7 +16,8 @@ public class User {
         this.level = level;
     }
 
-    public User(String password, String userName, String level) {
+
+    public User( String userName, String password,String level) {
         this.password = password;
         this.userName = userName;
         this.level = level;
@@ -49,5 +53,15 @@ public class User {
 
     public void setLevel(String level) {
         this.level = level;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", level='" + level + '\'' +
+                '}';
     }
 }
