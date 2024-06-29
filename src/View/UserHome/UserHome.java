@@ -1,5 +1,7 @@
 package View.UserHome;
 
+import Pojo.User;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,22 +12,27 @@ public class UserHome {
     static JButton update=new JButton("修改文档");
     static JButton my = new JButton("我的文档");
 
-    public UserHome()
+    public static User user;
+
+    public UserHome(User user)
     {
-        frame.setSize(1200,800);
+        System.out.println(user);
+        frame.setSize(900,600);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         initFrame();
         frame.setVisible(true);
+        UserHome.user = user;
+        System.out.println(UserHome.user);
 
     }
 
     private void initFrame() {
+
         JPanel panel = new JPanel(new CardLayout(5,5));
-        JPanel panel1 = new JPanel();
-        JLabel textField = new JLabel("用户名");
-        panel1.setBackground(Color.red);
-        panel1.add(textField);
+
+        SearchPanel searchPanel = new SearchPanel();
+        JPanel panel1 = searchPanel.getPanel();
 
         JPanel panel2 = new JPanel();
         JLabel textField1 = new JLabel("用户名2");
@@ -51,14 +58,12 @@ public class UserHome {
                     cl.show(panel,"添加");
                 }
         );
-
-
         frame.add(panel);
         frame.add(ButtonPanel,BorderLayout.SOUTH);
 
     }
 
-    public static void main(String[] args) {
-        new UserHome();
-    }
+
+
+
 }

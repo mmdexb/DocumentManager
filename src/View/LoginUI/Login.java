@@ -2,6 +2,7 @@ package View.LoginUI;
 
 import Dao.UserControl;
 import Pojo.User;
+import View.UserHome.UserHome;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,6 +49,10 @@ public class Login {
                 JOptionPane.showMessageDialog(frame,"用户名或密码错误","错误",JOptionPane.ERROR_MESSAGE);
             }else{
                 JOptionPane.showMessageDialog(frame,"登陆成功","成功",JOptionPane.INFORMATION_MESSAGE);
+                System.out.println(users.get(0));
+                new UserHome(users.get(0));
+                frame.dispose();
+
             }
 
         });
