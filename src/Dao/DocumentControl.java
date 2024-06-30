@@ -71,6 +71,17 @@ public class DocumentControl {
         }, documentName);
     }
 
+    public int addDocument(DocumentBean documentBean){
+        return dbtool.executeUpdate("insert into document(documentName,documentAuthor,documentType,documentContent,documentTime,documentLevel) values(?,?,?,?,?,?)",
+                documentBean.getDocumentName(),
+                documentBean.getDocumentAuthor(),
+                documentBean.getDocumentType(),
+                documentBean.getDocumentContent(),
+                documentBean.getDocumentTime(),
+                documentBean.getDocumentLevel()
+        );
+    }
+
 
 
 }

@@ -5,6 +5,9 @@ import Pojo.DocumentBean;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+
 
 public class SearchPanel {
     private DefaultListModel<String> listModel = null;
@@ -12,16 +15,16 @@ public class SearchPanel {
     DocumentControl documentControl = new DocumentControl();
     JPanel panel = new JPanel();
 
-
     public SearchPanel() {
 
         panel.setLayout(new BorderLayout());
 
         //搜索栏
-        JPanel searchPanel = new JPanel(new BorderLayout());
+        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JLabel label = new JLabel("请输入查询的文档名称");
         JTextField DocumnetNameField = new JTextField(20);
         JButton search = new JButton("搜索");
+        JButton save= new JButton("保存");
         search.addActionListener(e -> {
             String searchText = DocumnetNameField.getText();
             if (searchText.isEmpty()) {
@@ -41,9 +44,42 @@ public class SearchPanel {
                 }
             }
         });
-        searchPanel.add(label, BorderLayout.WEST);
-        searchPanel.add(DocumnetNameField, BorderLayout.CENTER);
-        searchPanel.add(search, BorderLayout.EAST);
+        save.addActionListener(e -> {
+            DocumentBean documentBean = documentControl.getDocumentsByName(searchResultsList.getSelectedValue()).get(0);
+
+            //选择保存位置
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+            int userSelection = fileChooser.showSaveDialog(null);
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                File selectedDirectory = fileChooser.getSelectedFile();
+
+                // 构建目标文件名，确保加上.txt扩展名
+                String fileName = documentBean.getDocumentName() + ".txt";
+                File targetFile = new File(selectedDirectory, fileName);
+
+                try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
+                        new FileOutputStream(targetFile), StandardCharsets.UTF_8))) {
+                    writer.write(documentBean.getDocumentContent());
+                    JOptionPane.showMessageDialog(UserHome.frame, "文件创建成功: " + targetFile.getAbsolutePath());
+                    System.out.println("文件创建成功: " + targetFile.getAbsolutePath());
+                } catch (IOException e2) {
+                    JOptionPane.showMessageDialog(UserHome.frame, "创建文件时发生错误: " + e2.getMessage());
+                    System.err.println("创建文件时发生错误: " + e2.getMessage());
+                    e2.printStackTrace();
+                }
+            } else {
+                System.out.println("用户取消了文件选择");
+            }
+
+
+        });
+
+        searchPanel.add(label);
+        searchPanel.add(DocumnetNameField);
+        searchPanel.add(search);
+        searchPanel.add(save);
         panel.add(searchPanel, BorderLayout.NORTH);
 
         // 搜索结果

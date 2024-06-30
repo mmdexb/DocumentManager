@@ -84,6 +84,7 @@ public class Login {
     }
 
     public static void main(String[] args) {
+        System.setProperty("sun.java2d.noddraw", "true");
         new Login();
     }
 

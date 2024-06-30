@@ -13,17 +13,19 @@ public class UserHome {
     static JButton my = new JButton("我的文档");
 
     public static User user;
+    public static User user2;
 
     public UserHome(User user)
     {
+        UserHome.user = user;
+        UserHome.user2 = user;
         System.out.println(user);
         frame.setSize(900,600);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         initFrame();
         frame.setVisible(true);
-        UserHome.user = user;
-        System.out.println(UserHome.user);
+
 
     }
 
@@ -34,10 +36,9 @@ public class UserHome {
         SearchPanel searchPanel = new SearchPanel();
         JPanel panel1 = searchPanel.getPanel();
 
-        JPanel panel2 = new JPanel();
-        JLabel textField1 = new JLabel("用户名2");
-        panel2.setBackground(Color.blue);
-        panel2.add(textField1);
+        AddPanel addPanel = new AddPanel();
+        JPanel panel2 = addPanel.getPanel();
+
 
         panel.add(panel1,"查阅");
         panel.add(panel2,"添加");
