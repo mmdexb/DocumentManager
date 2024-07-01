@@ -55,7 +55,6 @@ public class SearchPanel {
             if (userSelection == JFileChooser.APPROVE_OPTION) {
                 File selectedDirectory = fileChooser.getSelectedFile();
 
-                // 构建目标文件名，确保加上.txt扩展名
                 String fileName = documentBean.getDocumentName() + ".txt";
                 File targetFile = new File(selectedDirectory, fileName);
 
@@ -84,10 +83,15 @@ public class SearchPanel {
 
         // 搜索结果
         listModel = new DefaultListModel<>();
+        java.util.List<DocumentBean> documentBeanss = documentControl.getDocumentsByUserName(UserHome.user.getUserName());
+        for(DocumentBean documentBean:documentBeanss){
+            listModel.addElement(documentBean.getDocumentName());
+        }
         searchResultsList = new JList<>(listModel);
         JScrollPane scrollPane = new JScrollPane(searchResultsList);
         scrollPane.setPreferredSize(new Dimension(150, 0));
         panel.add(scrollPane, BorderLayout.WEST);
+
 
         //文档展示
         JTextArea DocumentContentArea = new JTextArea();

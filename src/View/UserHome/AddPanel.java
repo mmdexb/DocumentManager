@@ -14,8 +14,10 @@ import java.io.IOException;
 public class AddPanel {
     JPanel panel = new JPanel(new BorderLayout(0,20));
 
+
     public AddPanel()
     {
+
         JPanel InfoPanel = new JPanel(new BorderLayout());
 
         InfoPanel.setLayout(new FlowLayout(FlowLayout.CENTER));

@@ -82,6 +82,39 @@ public class DocumentControl {
         );
     }
 
+    public List<DocumentBean> getDocumentsByUserName(String name){
+        String sql="select * from document where documentAuthor = ?";
+        return dbtool.executeQuery(sql, rs -> {
+            DocumentBean documentBean = new DocumentBean();
+            try {
+                documentBean.setDocumentID(rs.getInt("documentID"));
+                documentBean.setDocumentName(rs.getString("documentName"));
+                documentBean.setDocumentAuthor(rs.getString("documentAuthor"));
+                documentBean.setDocumentType(rs.getString("documentType"));
+                documentBean.setDocumentContent(rs.getString("documentContent"));
+                documentBean.setDocumentTime(rs.getString("documentTime"));
+                documentBean.setDocumentLevel(rs.getInt("documentLevel"));
+            }catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            return documentBean;
+        }, name);
 
+    }
 
+    public int deleteDocument(Integer documentId){
+        return dbtool.executeUpdate("delete from document where documentID = ?",documentId);
+    }
+
+    public int updateDocument(DocumentBean documentBean) {
+        return dbtool.executeUpdate("update document set documentName = ?,documentAuthor = ?,documentType = ?,documentContent = ?,documentTime = ?,documentLevel = ? where documentID = ?",
+                documentBean.getDocumentName(),
+                documentBean.getDocumentAuthor(),
+                documentBean.getDocumentType(),
+                documentBean.getDocumentContent(),
+                documentBean.getDocumentTime(),
+                documentBean.getDocumentLevel(),
+                documentBean.getDocumentID()
+        );
+    }
 }

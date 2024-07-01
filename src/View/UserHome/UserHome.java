@@ -39,24 +39,39 @@ public class UserHome {
         AddPanel addPanel = new AddPanel();
         JPanel panel2 = addPanel.getPanel();
 
+        UpdatePanel updatePanel = new UpdatePanel();
+        JPanel panel3 = updatePanel.getPanel();
+
+
 
         panel.add(panel1,"查阅");
         panel.add(panel2,"添加");
+        panel.add(panel3,"修改");
 
         JPanel ButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         ButtonPanel.add(search);
         ButtonPanel.add(add);
+        ButtonPanel.add(update);
 
         search.addActionListener(
                 e -> {
                     CardLayout cl = (CardLayout) (panel.getLayout());
                     cl.show(panel,"查阅");
+                    panel.repaint();
                 }
         );
         add.addActionListener(
                 e -> {
                     CardLayout cl = (CardLayout) (panel.getLayout());
                     cl.show(panel,"添加");
+                    panel.repaint();
+                }
+        );
+        update.addActionListener(
+                e -> {
+                    CardLayout cl = (CardLayout) (panel.getLayout());
+                    cl.show(panel,"修改");
+                    panel.repaint();
                 }
         );
         frame.add(panel);
