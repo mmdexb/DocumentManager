@@ -30,6 +30,8 @@ public class UpdatePanel {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JButton updateButton = new JButton("提交");
         JButton cancelButton = new JButton("撤销");
+        JButton deleteButton = new JButton("删除");
+        JButton refreshButton = new JButton("刷新");
         JLabel DocumentNameLabel = new JLabel("文档名称：");
         JTextField DocumentNameText = new JTextField(20);
         JLabel DocumentTypeLabel = new JLabel("文档类型：");
@@ -50,6 +52,8 @@ public class UpdatePanel {
         buttonPanel.add(documentLevelText);
         buttonPanel.add(updateButton);
         buttonPanel.add(cancelButton);
+        buttonPanel.add(deleteButton);
+        buttonPanel.add(refreshButton);
         UpdatePanel.add(buttonPanel,BorderLayout.SOUTH);
         initList();
 
@@ -101,15 +105,40 @@ public class UpdatePanel {
 
 
         });
+        deleteButton.addActionListener(e->{
+            if(documentId!=0){
+                int result = JOptionPane.showConfirmDialog(null, "确定删除吗？", "提示", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION) {
+                    documentControl.deleteDocument(documentId);
+                    JOptionPane.showMessageDialog(null, "删除成功");
+                    initList();
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "请选择文档");
+            }
+
+        });
+        refreshButton.addActionListener(e->{
+            initList();
+        });
 
     }
 
     public void initList(){
-        listModel.clear();
-        java.util.List<DocumentBean> documentBeans = documentControl.getDocumentsByUserName(UserHome.user.getUserName());
-        for(DocumentBean documentBean:documentBeans){
-            listModel.addElement(documentBean.getDocumentName());
+        if(UserHome.user.getLevel().equals("3")){
+            listModel.clear();
+            for(DocumentBean documentBean:documentControl.getAllDocuments()){
+                listModel.addElement(documentBean.getDocumentName());
+            }
+        }else{
+            listModel.clear();
+            java.util.List<DocumentBean> documentBeans = documentControl.getDocumentsByUserName(UserHome.user.getUserName());
+            for(DocumentBean documentBean:documentBeans){
+                listModel.addElement(documentBean.getDocumentName());
+            }
+
         }
+
     }
 
     public static JPanel getPanel() {

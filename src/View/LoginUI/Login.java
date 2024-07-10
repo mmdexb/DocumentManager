@@ -6,6 +6,8 @@ import View.UserHome.UserHome;
 
 import javax.swing.*;
 import java.awt.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 public class Login {
@@ -44,7 +46,9 @@ public class Login {
                 return;
             }
             UserControl userControl=new UserControl();
-            ArrayList<User> users= (ArrayList<User>) userControl.getUsersByNameAndPassword(userNameText.getText(),new String(passwordText.getPassword()));
+            String pwd=new String(passwordText.getPassword());
+            pwd=generateMD5(pwd);
+            ArrayList<User> users= (ArrayList<User>) userControl.getUsersByNameAndPassword(userNameText.getText(),pwd);
             if(users.isEmpty()){
                 JOptionPane.showMessageDialog(frame,"用户名或密码错误","错误",JOptionPane.ERROR_MESSAGE);
             }else{
@@ -65,7 +69,9 @@ public class Login {
             }
             UserControl userControl=new UserControl();
             if(userControl.getUsersByName(userNameText.getText()).isEmpty()){
-                User user=new User(userNameText.getText(),new String(passwordText.getPassword()),"1");
+                String pwd=new String(passwordText.getPassword());
+                pwd=generateMD5(pwd);
+                User user=new User(userNameText.getText(),pwd,"1");
                 userControl.addUser(user);
                 JOptionPane.showMessageDialog(frame,"注册成功","成功",JOptionPane.INFORMATION_MESSAGE);
             }else{
@@ -86,6 +92,23 @@ public class Login {
     public static void main(String[] args) {
         System.setProperty("sun.java2d.noddraw", "true");
         new Login();
+    }
+    public static String generateMD5(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(input.getBytes());
+            byte[] digest = md.digest();
+            StringBuilder sb = new StringBuilder();
+            for (byte b : digest) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+
+        }
+
+
     }
 
 

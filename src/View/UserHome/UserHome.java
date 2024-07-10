@@ -10,7 +10,7 @@ public class UserHome {
     static JButton search=new JButton("查阅文档");
     static JButton add=new JButton("添加文档");
     static JButton update=new JButton("修改文档");
-    static JButton my = new JButton("我的文档");
+    static JButton userControl1 = new JButton("成员管理");
 
     public static User user;
     public static User user2;
@@ -42,16 +42,24 @@ public class UserHome {
         UpdatePanel updatePanel = new UpdatePanel();
         JPanel panel3 = updatePanel.getPanel();
 
+        UserControl userControl = new UserControl();
+        JPanel panel4 = userControl.getPanel();
+
 
 
         panel.add(panel1,"查阅");
         panel.add(panel2,"添加");
         panel.add(panel3,"修改");
+        panel.add(panel4,"成员管理");
 
         JPanel ButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         ButtonPanel.add(search);
         ButtonPanel.add(add);
         ButtonPanel.add(update);
+
+        if(user.getLevel().equals("3")){
+            ButtonPanel.add(userControl1);
+        }
 
         search.addActionListener(
                 e -> {
@@ -74,6 +82,14 @@ public class UserHome {
                     panel.repaint();
                 }
         );
+        userControl1.addActionListener(
+                e -> {
+                    CardLayout cl = (CardLayout) (panel.getLayout());
+                    cl.show(panel,"成员管理");
+                    panel.repaint();
+                }
+        );
+
         frame.add(panel);
         frame.add(ButtonPanel,BorderLayout.SOUTH);
 
