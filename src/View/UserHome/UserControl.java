@@ -25,8 +25,10 @@ public class UserControl {
 
         JPanel InfoPanel=new JPanel(new FlowLayout(FlowLayout.CENTER));
         JLabel userName=new JLabel("用户名:");
+        userName.setPreferredSize(new Dimension(50,20));
         JTextField userNameText=new JTextField(10);
         JLabel level=new JLabel("用户等级:");
+        level.setPreferredSize(new Dimension(70,20));
         JComboBox userlevelText = new JComboBox();
         userlevelText.setEditable(false);
         int maxlevel= 3;
@@ -37,6 +39,7 @@ public class UserControl {
         JTextArea userDocments=new JTextArea();
         userDocments.setEditable(false);
         JLabel userPwd=new JLabel("用户密码:");
+        userPwd.setPreferredSize(new Dimension(70,20));
         JTextField userPwdText=new JTextField(10);
         InfoPanel.add(userName);
         InfoPanel.add(userNameText);
@@ -86,7 +89,8 @@ public class UserControl {
             JPanel panel01=new JPanel(new FlowLayout(FlowLayout.CENTER));
             JPanel panel02=new JPanel(new FlowLayout(FlowLayout.CENTER));
             JPanel panel03=new JPanel(new FlowLayout(FlowLayout.CENTER));
-            JLabel userName1=new JLabel("用户名:");
+            JLabel userName1=new JLabel("用户名: ");
+            userName1.setPreferredSize(new Dimension(50,20));
             JTextField userNameText1=new JTextField(10);
             JLabel password1=new JLabel("密码:");
             JTextField passwordText1 = new JTextField(10);

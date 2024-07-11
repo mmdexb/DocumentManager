@@ -54,10 +54,8 @@ public class SearchPanel {
             int userSelection = fileChooser.showSaveDialog(null);
             if (userSelection == JFileChooser.APPROVE_OPTION) {
                 File selectedDirectory = fileChooser.getSelectedFile();
-
                 String fileName = documentBean.getDocumentName() + ".txt";
                 File targetFile = new File(selectedDirectory, fileName);
-
                 try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
                         new FileOutputStream(targetFile), StandardCharsets.UTF_8))) {
                     writer.write(documentBean.getDocumentContent());
@@ -83,9 +81,12 @@ public class SearchPanel {
 
         // 搜索结果
         listModel = new DefaultListModel<>();
-        java.util.List<DocumentBean> documentBeanss = documentControl.getDocumentsByUserName(UserHome.user.getUserName());
+        java.util.List<DocumentBean> documentBeanss = documentControl.getAllDocuments();
         for(DocumentBean documentBean:documentBeanss){
-            listModel.addElement(documentBean.getDocumentName());
+            Integer UserLevel=Integer.parseInt(UserHome.user.getLevel());
+            if(documentBean.getDocumentLevel()<=UserLevel){
+                listModel.addElement(documentBean.getDocumentName());
+            }
         }
         searchResultsList = new JList<>(listModel);
         JScrollPane scrollPane = new JScrollPane(searchResultsList);

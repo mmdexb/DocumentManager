@@ -80,7 +80,7 @@ public class UpdatePanel {
                 documentBean.setDocumentName(DocumentNameText.getText());
                 documentBean.setDocumentType(DocumentTypeText.getText());
                 documentBean.setDocumentLevel(Integer.parseInt(documentLevelText.getSelectedItem().toString()));
-                documentBean.setDocumentAuthor(UserHome.user.getUserName());
+                documentBean.setDocumentAuthor(SelectedDocumentBean.getDocumentAuthor());
                 String time = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm").format(new java.util.Date());
                 documentBean.setDocumentTime(time);
                 documentId=0;
