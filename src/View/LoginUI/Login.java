@@ -6,6 +6,9 @@ import View.UserHome.UserHome;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -18,6 +21,8 @@ public class Login {
     public static JPasswordField passwordText=new JPasswordField(20);
     public static JButton login=new JButton("登录");
     public static JButton register=new JButton("注册");
+    String code="";
+    JTextField tf1;
 
     public Login()
     {
@@ -40,6 +45,32 @@ public class Login {
         panel02.add(passwordText);
 
         JPanel panel03=new JPanel(new FlowLayout(FlowLayout.CENTER));
+
+        JPanel panel04=new JPanel();
+
+        Object[] obj = Yanzheng.createImage();
+        code = obj[0].toString();
+        System.out.println(code);
+        //验证码图片
+        JLabel label1 = new JLabel();
+
+        ImageIcon img = new ImageIcon((BufferedImage)obj[1]);
+        label1.setIcon((Icon)img);
+        panel04.add(label1);
+        tf1 = new JTextField(6);
+        panel04.add(tf1);
+
+
+        panel04.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e){
+                if(e.getClickCount() == 1){
+                    //重新获取验证码
+                    getPicture(label1,panel04);
+                }
+            }
+        });
+
+
         login.addActionListener(e -> {
             if(userNameText.getText().isEmpty()||new String(passwordText.getPassword()).isEmpty()){
                 JOptionPane.showMessageDialog(frame,"用户名或密码为空","错误",JOptionPane.ERROR_MESSAGE);
@@ -52,6 +83,11 @@ public class Login {
             if(users.isEmpty()){
                 JOptionPane.showMessageDialog(frame,"用户名或密码错误","错误",JOptionPane.ERROR_MESSAGE);
             }else{
+                System.out.println(tf1.getText());
+                if(!tf1.getText().equals(code)){
+                    JOptionPane.showMessageDialog(frame,"验证码错误","错误",JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 JOptionPane.showMessageDialog(frame,"登陆成功","成功",JOptionPane.INFORMATION_MESSAGE);
                 System.out.println(users.get(0));
                 new UserHome(users.get(0));
@@ -63,6 +99,10 @@ public class Login {
         panel03.add(login);
 
         register.addActionListener(e -> {
+            if(userNameText.getText().isEmpty()||new String(passwordText.getPassword()).isEmpty()){
+                JOptionPane.showMessageDialog(frame,"用户名或密码为空","错误",JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             if(userNameText.getText().isEmpty()||new String(passwordText.getPassword()).isEmpty()){
                 JOptionPane.showMessageDialog(frame,"用户名或密码为空","错误",JOptionPane.ERROR_MESSAGE);
                 return;
@@ -83,7 +123,9 @@ public class Login {
         Box vbox=Box.createVerticalBox();
         vbox.add(panel01);
         vbox.add(panel02);
+        vbox.add(panel04);
         vbox.add(panel03);
+
 
         frame.setContentPane(vbox);
 
@@ -109,6 +151,15 @@ public class Login {
         }
 
 
+    }
+
+    public void getPicture(JLabel label,JPanel panel){
+        Object[] obj = Yanzheng.createImage();
+        code = obj[0].toString();
+        System.out.println(code);
+        ImageIcon img = new ImageIcon((BufferedImage)obj[1]);//创建图片对象
+        label.setIcon((Icon)img);
+        panel.add(label);
     }
 
 

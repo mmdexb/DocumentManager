@@ -57,7 +57,7 @@ public class UpdatePanel {
         UpdatePanel.add(buttonPanel,BorderLayout.SOUTH);
         initList();
 
-        searchResultsList.addListSelectionListener(e -> {
+        searchResultsList.addListSelectionListener(e ->     {
             if (!e.getValueIsAdjusting()) {
                 String selectedValue = searchResultsList.getSelectedValue();
                 if (selectedValue != null) {
